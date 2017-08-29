@@ -1,49 +1,36 @@
 # Prerequisites
 *.d
-
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
-
 # Precompiled Headers
 *.gch
 *.pch
-
 # Compiled Dynamic libraries
 *.so
 *.dylib
 *.dll
-
 # Fortran module files
 *.mod
 *.smod
-
 # Compiled Static libraries
 *.lai
 *.la
 *.a
 *.lib
-
 # Executables
 *.exe
 *.out
 *.app
-
-
 # General
 *.DS_Store
 .AppleDouble
 .LSOverride
-
-
 # Thumbnails
 ._*
-
 # general
-
-
 [Bb]uild/
 [Oo]bj/
 *.o
@@ -63,11 +50,9 @@ tests/**/gcc-release/
 *.cpp.eep
 *.cpp.elf
 *.cpp.hex
-
 #########################
 # IDE
 #########################
-
 # XCode
 *.pbxuser
 *.perspective
@@ -77,11 +62,9 @@ tests/**/gcc-release/
 # XCode 4
 xcuserdata
 *.xcworkspace
-
 # Code::Blocks
 *.depend
 *.layout
-
 # Visual Studio
 *.sdf
 *.opensdf
@@ -90,19 +73,14 @@ xcuserdata
 *.ilk
 *.aps
 ipch/
-
-
-
 #########################
 # operating system
 #########################
-
 # Linux
 *~
 # KDE
 .directory
 .AppleDouble
-
 # OSX
 .DS_Store
 *.swp
@@ -110,10 +88,16 @@ ipch/
 # Thumbnails
 ._*
 examples/ios/**/mediaAssets
-
 # Windows
 # Windows image file caches
 Thumbs.db
 # Folder config file
 Desktop.ini
-
+icon.rc
+*.exp
+*.vcxproj.user
+*.vcxproj.filters
+*.vcxproj
+*.sln
+Solution.VC.db
+Browse.VC.db
