@@ -116,7 +116,19 @@ examples/ios/**/mediaAssets
 Thumbs.db
 # Folder config file
 Desktop.ini
+icon.rc
+*.exp
+
+
+*.vcxproj.user
+*.vcxproj.filters
+*.vcxproj
+*.sln
+Solution.VC.db
+Browse.VC.db
+
 
 *.xcodeproj
 *.plist
 *.xcconfig
+
