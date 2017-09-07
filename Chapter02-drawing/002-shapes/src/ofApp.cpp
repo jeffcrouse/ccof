@@ -19,11 +19,8 @@ void ofApp::draw(){
     
     
     ofNoFill();
-    
-    
     ofSetColor(255, 0, 0);
     ofDrawCircle(320, 100, 20);
-    
     
     
     ofDrawRectangle(10, 10, 40, 50);
@@ -33,14 +30,15 @@ void ofApp::draw(){
     ofDrawLine(320, 240, 320, 100);
     
     
+    ofSetColor(40, 100, 100);
+    ofFill();
+    // Draw an arbitrary 3 sided shape
+    // (add more calls to ofVertex to add more sides)
     ofBeginShape();
     ofVertex(20, 20);
     ofVertex(200, 20);
     ofVertex(200, 400);
-    ofEndShape(true);
-    
-    
-    
+    ofEndShape(true); // what does the "true" mean? And how do you know?
     
 }
 

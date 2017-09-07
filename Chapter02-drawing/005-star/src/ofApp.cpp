@@ -13,8 +13,8 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-    int sides = 12;
-    float radius = 100;
+    int sides = 24;
+    float radius = 200;
     bool dip=true;
     int x, y;
     float starishness = 2;
