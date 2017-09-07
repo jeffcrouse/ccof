@@ -2,8 +2,9 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofSetFrameRate(24);
     ofSetWindowShape(640, 480);
-    ofBackground(255, 255, 255);
+    ofBackgroundHex(0xEFDC9E);
 }
 
 //--------------------------------------------------------------
@@ -13,35 +14,49 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    // Loop 1 - blue
     ofFill();
-    ofSetColor(0, 0, 255);
-    ofDrawCircle(320, 240, 20);
+    ofSetColor(24, 58, 117);
+    for(int i=0; i<32; i++)
+    {
+        ofDrawCircle(20+i*20, 10, 10);
+    }
     
     
+    // Loop 2 - green
+    ofSetColor(23, 142, 39);
+    for(int x=10; x<ofGetWidth(); x+=20)
+    {
+        ofDrawCircle(x, ofGetHeight()-20, 10);
+    }
+    
+    
+    // Loop 3 - brown
+    ofSetColor(142, 83, 23);
+    float centerX = ofGetWidth()/2.0;
+    float centerY = ofGetHeight()/2.0;
+    for(float a=0; a<360; a+=15)
+    {
+        float t = ofDegToRad(a);
+        float x = centerX + cos(t) * 100;
+        float y = centerY + sin(t) * 100;
+        ofDrawCircle(x, y, 10);
+    }
+    
+    
+    // Loop 4 - purple
     ofNoFill();
-    
-    
-    ofSetColor(255, 0, 0);
-    ofDrawCircle(320, 100, 20);
-    
-    
-    
-    ofDrawRectangle(10, 10, 40, 50);
-    
-    
-    ofSetColor(0, 255, 0);
-    ofDrawLine(320, 240, 320, 100);
-    
-    
+    ofSetColor(132, 84, 154);
     ofBeginShape();
-    ofVertex(20, 20);
-    ofVertex(200, 20);
-    ofVertex(200, 400);
+    for(int a=0; a<360; a+=15)
+    {
+        float t = ofDegToRad(a);
+        float r = (a % 10==0) ? 100 : 200;
+        float x = centerX + cos(t) * r;
+        float y = centerY + sin(t) * r;
+        ofVertex(x, y);
+    }
     ofEndShape(true);
-    
-    
-    
-    
 }
 
 //--------------------------------------------------------------
