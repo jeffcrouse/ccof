@@ -1,43 +1,42 @@
 #include "ofApp.h"
 
-
-float px;
-float py;
-float ix = 0;
-float iy = 0.5;
-
-
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetWindowShape(1024, 768);
-    ofSetWindowTitle("noise");
+    ofSetWindowTitle("gravity");
     ofSetFrameRate(60);
     ofBackground(255, 255, 255);
     ofEnableSmoothing();
     ofSetCircleResolution(40);
+    
+    radius = 20;
+    pos.set(ofGetWidth()/2.0, 20);
+    vel.set(0, 0);
+    acc.set(0, 0.8);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    vel += acc;
+    pos += vel;
     
-    float cx = ofGetWidth() / 2.0;
-    float cy = ofGetHeight() / 2.0;
-    
-    float nx = ofNoise(ix);
-    float ny = ofNoise(iy);
-    
-
-    px = cx + ofMap(nx, 0, 1, -500, 500);
-    py = cy + ofMap(ny, 0, 1, -500, 500);
-    
-    ix += 0.01;
-    iy += 0.01;
+    // gravity
+    if(pos.y >= ofGetHeight()-radius)
+    {
+        pos.y = ofGetHeight()-radius;
+        vel.y *= -0.7;
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofSetColor(0);
-    ofDrawCircle(px, py, 20);
+    ofFill();
+    ofSetColor(24, 58, 117);
+    ofDrawCircle(pos.x, pos.y, radius);
+    
+    // Shows velocity
+    ofSetColor(255, 0, 0);
+    ofDrawLine(pos.x, pos.y, pos.x+vel.x, pos.y+vel.y);
 }
 
 //--------------------------------------------------------------

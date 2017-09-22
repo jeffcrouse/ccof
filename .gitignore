@@ -120,15 +120,15 @@ icon.rc
 *.exp
 
 
-*.vcxproj.user
-*.vcxproj.filters
-*.vcxproj
-*.sln
-Solution.VC.db
-Browse.VC.db
+#*.vcxproj.user
+#*.vcxproj.filters
+#*.vcxproj
+#*.sln
+#Solution.VC.db
+#Browse.VC.db
 
 
-*.xcodeproj
-*.plist
-*.xcconfig
+#*.xcodeproj
+#*.plist
+#*.xcconfig
 

@@ -1,43 +1,71 @@
 #include "ofApp.h"
 
+#define NUM_PARTICLES 100
 
-float px;
-float py;
-float ix = 0;
-float iy = 0.5;
-
+float x_pos[NUM_PARTICLES];
+float y_pos[NUM_PARTICLES];
+float x_vel[NUM_PARTICLES];
+float y_vel[NUM_PARTICLES];
+float radius[NUM_PARTICLES];
+int color[NUM_PARTICLES];
 
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetWindowShape(1024, 768);
-    ofSetWindowTitle("noise");
+    ofSetWindowTitle("arrays");
     ofSetFrameRate(60);
     ofBackground(255, 255, 255);
     ofEnableSmoothing();
     ofSetCircleResolution(40);
+    
+    
+    
+    for(int i=0; i<NUM_PARTICLES; i++)
+    {
+        radius[i] = ofRandom(10, 20);
+        x_pos[i] = ofRandom(radius[i], ofGetWidth()-radius[i]);
+        y_pos[i] = ofRandom(radius[i], ofGetHeight()-radius[i]);
+        x_vel[i] = ofRandom(-10, 10);
+        y_vel[i] = ofRandom(-10, 10);
+        color[i] = ofRandom(0xFFFFFF);
+        //color[i].setHsb(ofRandom(255), 200, 200);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
-    float cx = ofGetWidth() / 2.0;
-    float cy = ofGetHeight() / 2.0;
-    
-    float nx = ofNoise(ix);
-    float ny = ofNoise(iy);
-    
-
-    px = cx + ofMap(nx, 0, 1, -500, 500);
-    py = cy + ofMap(ny, 0, 1, -500, 500);
-    
-    ix += 0.01;
-    iy += 0.01;
+    for(int i=0; i<NUM_PARTICLES; i++)
+    {
+        x_pos[i] += x_vel[i];
+        y_pos[i] += y_vel[i];
+        
+        // bounce
+        if(x_pos[i] > ofGetWidth()-radius[i]) {
+            x_pos[i] = ofGetWidth()-radius[i];
+            x_vel[i] *= -1;
+        }
+        if(x_pos[i] < radius[i]) {
+            x_pos[i] = radius[i];
+            x_vel[i] *= -1;
+        }
+        if(y_pos[i] > ofGetHeight()-radius[i]) {
+            y_pos[i] = ofGetHeight()-radius[i];
+            y_vel[i] *= -1;
+        }
+        if(y_pos[i] < radius[i]) {
+            y_pos[i] = radius[i];
+            y_vel[i] *= -1;
+        }
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofSetColor(0);
-    ofDrawCircle(px, py, 20);
+    for(int i=0; i<NUM_PARTICLES; i++)
+    {
+        ofSetHexColor(color[i]);
+        ofCircle(x_pos[i], y_pos[i], radius[i]);
+    }
 }
 
 //--------------------------------------------------------------

@@ -1,43 +1,65 @@
 #include "ofApp.h"
 
 
-float px;
-float py;
-float ix = 0;
-float iy = 0.5;
-
+ofPoint velocity;
+ofPoint position;
+ofColor color;
+float radius = 20;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetWindowShape(1024, 768);
-    ofSetWindowTitle("noise");
+    ofSetWindowTitle("object");
     ofSetFrameRate(60);
     ofBackground(255, 255, 255);
     ofEnableSmoothing();
     ofSetCircleResolution(40);
+    
+    velocity.x = ofRandom(-6, 6);
+    velocity.y = ofRandom(-6, 6);
+    position.x = ofGetWidth() / 2.0;
+    position.y = ofGetHeight() / 2.0;
+    
+    color.set(100, 100, 100);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    position += velocity;
     
-    float cx = ofGetWidth() / 2.0;
-    float cy = ofGetHeight() / 2.0;
+    bool hit = false;
+    if(position.x < radius) {
+        position.x = radius;
+        velocity.x *= -1;
+        hit = true;
+    }
+    if(position.x > ofGetWidth()-radius) {
+        position.x =ofGetWidth()-radius;
+        velocity.x *= -1;
+        hit = true;
+    }
+    if(position.y < radius) {
+        position.y = radius;
+        velocity.y *= -1;
+        hit = true;
+    }
+    if(position.y > ofGetHeight()-radius) {
+        position.y = ofGetHeight()-radius;
+        velocity.y *= -1;
+        hit = true;
+    }
     
-    float nx = ofNoise(ix);
-    float ny = ofNoise(iy);
-    
-
-    px = cx + ofMap(nx, 0, 1, -500, 500);
-    py = cy + ofMap(ny, 0, 1, -500, 500);
-    
-    ix += 0.01;
-    iy += 0.01;
+    if(hit) {
+        color.r = ofRandom(0, 255);
+        color.g = ofRandom(0, 255);
+        color.b = ofRandom(0, 255);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofSetColor(0);
-    ofDrawCircle(px, py, 20);
+    ofSetColor(color);
+    ofDrawCircle(position, radius);
 }
 
 //--------------------------------------------------------------

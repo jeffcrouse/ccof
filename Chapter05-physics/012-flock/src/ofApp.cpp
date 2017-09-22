@@ -1,43 +1,18 @@
 #include "ofApp.h"
 
-
-float px;
-float py;
-float ix = 0;
-float iy = 0.5;
-
-
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofSetWindowShape(1024, 768);
-    ofSetWindowTitle("noise");
-    ofSetFrameRate(60);
-    ofBackground(255, 255, 255);
-    ofEnableSmoothing();
-    ofSetCircleResolution(40);
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
-    float cx = ofGetWidth() / 2.0;
-    float cy = ofGetHeight() / 2.0;
-    
-    float nx = ofNoise(ix);
-    float ny = ofNoise(iy);
-    
 
-    px = cx + ofMap(nx, 0, 1, -500, 500);
-    py = cy + ofMap(ny, 0, 1, -500, 500);
-    
-    ix += 0.01;
-    iy += 0.01;
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofSetColor(0);
-    ofDrawCircle(px, py, 20);
+
 }
 
 //--------------------------------------------------------------

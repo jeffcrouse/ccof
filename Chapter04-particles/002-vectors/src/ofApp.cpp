@@ -1,43 +1,70 @@
 #include "ofApp.h"
 
-
-float px;
-float py;
-float ix = 0;
-float iy = 0.5;
-
+vector<ofPoint> pos;
+vector<ofPoint> vel;
+vector<ofColor> color;
+vector<float> radius;
+vector<float> born;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetWindowShape(1024, 768);
-    ofSetWindowTitle("noise");
+    ofSetWindowTitle("vectors");
     ofSetFrameRate(60);
     ofBackground(255, 255, 255);
     ofEnableSmoothing();
     ofSetCircleResolution(40);
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
-    float cx = ofGetWidth() / 2.0;
-    float cy = ofGetHeight() / 2.0;
-    
-    float nx = ofNoise(ix);
-    float ny = ofNoise(iy);
-    
-
-    px = cx + ofMap(nx, 0, 1, -500, 500);
-    py = cy + ofMap(ny, 0, 1, -500, 500);
-    
-    ix += 0.01;
-    iy += 0.01;
+    for(int i=0; i<pos.size(); i++)
+    {
+        pos[i] += vel[i];
+        
+        // bounce off walls
+        if(pos[i].x > ofGetWidth()-radius[i]) {
+            pos[i].x = ofGetWidth()-radius[i];
+            vel[i].x *= -1;
+        }
+        if(pos[i].x < radius[i]) {
+            pos[i].x = radius[i];
+            vel[i].x *= -1;
+        }
+        if(pos[i].y > ofGetHeight()-radius[i]) {
+            pos[i].y = ofGetHeight()-radius[i];
+            vel[i].y *= -1;
+        }
+        if(pos[i].y < radius[i]) {
+            pos[i].y = radius[i];
+            vel[i].y *= -1;
+        }
+        
+        float age = ofGetElapsedTimef() - born[i];
+        color[i].a = ofMap(age, 0, 5, 255, 0);
+        
+        if(color[i].a < 10)
+        {
+            radius.erase(radius.begin() + i);
+            pos.erase(pos.begin()+i);
+            vel.erase(vel.begin()+i);
+            color.erase(color.begin()+i);
+            born.erase(born.begin()+i);
+        }
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    for(int i=0; i<pos.size(); i++)
+    {
+        ofSetColor(color[i]);
+        ofDrawCircle(pos[i], radius[i]);
+    }
+    
     ofSetColor(0);
-    ofDrawCircle(px, py, 20);
+    ofDrawBitmapString("particles="+ofToString(pos.size()), 10, 20);
 }
 
 //--------------------------------------------------------------
@@ -57,7 +84,11 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+    radius.push_back( ofRandom(10, 20) );
+    pos.push_back( ofPoint(x, y) );
+    vel.push_back( ofPoint(ofRandom(-10, 10), ofRandom(-10, 10)) );
+    color.push_back( ofColor::fromHsb(ofRandom(255), 200, 200) );
+    born.push_back( ofGetElapsedTimef() );
 }
 
 //--------------------------------------------------------------
