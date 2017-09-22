@@ -21,10 +21,4 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-    
-        ofPoint loc, origin;
-        ofPoint velocity;
-        
-        int radius;
-        bool dragging;
 };

@@ -1,6 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#define NUM_PARTICLES 200
+
+
 
 class ofApp : public ofBaseApp{
 
@@ -20,5 +23,10 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
+
+        ofPoint pos[NUM_PARTICLES];
+        ofPoint vel[NUM_PARTICLES];
+        float radius[NUM_PARTICLES];
+        ofColor color[NUM_PARTICLES];
+    
 };

@@ -57,9 +57,12 @@ void ofDrawFrog() {
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofSetFrameRate(24);
-    ofBackground(255,255,255);
-    //ofSetWindowShape(640, 480);
+    ofSetWindowShape(1024, 768);
+    ofSetWindowTitle("matrix");
+    ofSetFrameRate(60);
+    ofBackground(255, 255, 255);
+    ofEnableSmoothing();
+    ofSetCircleResolution(40);
     
     frogX = ofGetWidth()/2;
     frogY = ofGetHeight()/2;
