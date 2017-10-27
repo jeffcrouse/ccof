@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Flock.hpp"
+#include "Boid.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -21,4 +23,5 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+        Flock f;
 };

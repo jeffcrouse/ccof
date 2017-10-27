@@ -1,6 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Thing.hpp"
+#include "Attractor.hpp"
+
 
 class ofApp : public ofBaseApp{
 
@@ -21,4 +24,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+    vector<Thing> things;
+    Attractor a;
+    
 };

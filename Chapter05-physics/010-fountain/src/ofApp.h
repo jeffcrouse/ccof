@@ -1,6 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Particle.hpp"
+#include "ParticleSystem.hpp"
+
 
 class ofApp : public ofBaseApp{
 
@@ -21,4 +24,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+    
+    ParticleSystem ps;
+    ofPoint gravity;
+    
 };

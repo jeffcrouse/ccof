@@ -30,8 +30,6 @@ void ofApp::draw(){
     if(bWireframe) ofNoFill();
     else ofFill();
     
-    
-    
     ofPushMatrix();
     
         ofTranslate(center);
