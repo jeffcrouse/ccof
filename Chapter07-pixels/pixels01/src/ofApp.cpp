@@ -17,6 +17,10 @@ void ofApp::setup(){
     offset.y = (ofGetHeight()/2.0) - (theCount.getHeight()/2.0);
 }
 
+bool RemoveIf(const PixelParticle& p) {
+    return p.pos.y > ofGetHeight();
+}
+
 //--------------------------------------------------------------
 void ofApp::update(){
     
@@ -25,10 +29,12 @@ void ofApp::update(){
         p.update(deltaTime);
     }
     
-    particles.erase(remove_if(particles.begin(), particles.end(),
-                              [](const PixelParticle& p)
-                              { return p.pos.y > ofGetHeight(); }),
-                            particles.end());
+    // https://stackoverflow.com/questions/9053883/erase-after-performing-remove-if
+    // remove_if, works first. It iterates over the whole vector and moves all "selected"
+    // entries "to the end" (better said: it moves the non selected entries to the front).
+    // After it has run it returns an iterator to the "last" position of the left over entriestowe
+    auto iterator = remove_if(particles.begin(), particles.end(), RemoveIf);
+    particles.erase(iterator, particles.end());
 }
 
 //--------------------------------------------------------------
