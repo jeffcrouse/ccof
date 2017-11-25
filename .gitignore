@@ -132,3 +132,4 @@ icon.rc
 #*.plist
 #*.xcconfig
 
+node_modules
