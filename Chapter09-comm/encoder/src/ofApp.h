@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 #include "Projectile.hpp"
+#include "Enemy.hpp"
+
 
 class ofApp : public ofBaseApp{
 
@@ -24,8 +26,18 @@ class ofApp : public ofBaseApp{
 		
         ofSerial serial;
         stringstream ss;
+
         ofPoint pos;
         int radius = 10;
+    
+    
         vector<Projectile> lasers;
         float nextLaser;
+    
+    
+        vector<Enemy> enemies;
+        float nextEnemy;
+    
+        bool paused = false;
+        bool debug = false;
 };

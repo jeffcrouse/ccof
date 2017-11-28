@@ -11,6 +11,10 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    float now = ofGetElapsedTimef();
+    float deltaTime = ofGetLastFrameTime();
+    
+    
     
     while(serial.available()) {
         char b = serial.readByte();
@@ -19,11 +23,12 @@ void ofApp::update(){
             
             if(line=="Clicked") {
                 ofLogNotice() << "Clicked";
+                paused = !paused;
             } else if(line=="DoubleClicked") {
                 ofLogNotice() << "DoubleClicked";
             } else {
                 ofLogNotice() << "Encoder: " << line;
-                pos.x += ofToInt(line);
+                if(!paused) pos.x += ofToInt(line);
                 if(pos.x > ofGetWidth()+radius) pos.x = -radius;
                 if(pos.x < -radius) pos.x = ofGetWidth()+radius;
             }
@@ -33,36 +38,57 @@ void ofApp::update(){
         }
     }
     
-    float now = ofGetElapsedTimef();
+    if(paused) return;
+    
+    
     if(now > nextLaser) {
         Projectile p;
         p.setup(pos);
         lasers.push_back(p);
-        nextLaser = now + 0.5;
+        nextLaser = now + 0.15;
     }
     
-    float deltaTime = ofGetLastFrameTime();
+    if(now > nextEnemy) {
+        float theta =  ofRandomf() * M_TWO_PI;
+        float y = 10 + ((int)ofRandom(6) * 10);
+        Enemy e;
+        e.setup(0, 30, theta);
+        enemies.push_back( e );
+        nextEnemy = now + 2.0;
+    }
+    
     for(auto& p: lasers) {
         p.update(deltaTime);
     }
     
-    auto removeif = [](const Projectile& p) { return p.pos.y < 0; };
-    auto iterator = remove_if(lasers.begin(), lasers.end(), removeif);
-    lasers.erase(iterator, lasers.end());
+    lasers.erase(remove_if(lasers.begin(), lasers.end(), [](const Projectile& p) { return p.pos.y < 0; }), lasers.end());
+    
+    for(auto& e: enemies) {
+        e.update(deltaTime, lasers);
+    }
+    
+    enemies.erase(remove_if(enemies.begin(), enemies.end(), [](const Enemy& e) { return e.alpha < 0; }), enemies.end());
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofSetColor(255);
     ofDrawCircle(pos, 10);
     for(auto& p: lasers) {
         p.draw();
     }
 
-    stringstream ss;
-    for(auto& p: lasers) {
-        ss << p.pos << endl;
+    for(auto& e: enemies) {
+        e.draw();
     }
-    ofDrawBitmapStringHighlight(ss.str(), 10, 20);
+
+    if(debug) {
+        stringstream ss;
+        for(auto& p: lasers) {
+            ss << p.pos << endl;
+        }
+        ofDrawBitmapStringHighlight(ss.str(), 10, 20);
+    }
 }
 
 //--------------------------------------------------------------
@@ -72,7 +98,9 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
+    if(key=='d') {
+        debug = !debug;
+    }
 }
 
 //--------------------------------------------------------------

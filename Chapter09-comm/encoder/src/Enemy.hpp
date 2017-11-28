@@ -7,16 +7,21 @@
 
 #pragma once
 #include "ofMain.h"
+#include "Projectile.hpp"
+
 
 class Enemy {
 public:
-    void setup(float x, float y, float n);
-    void update();
+    void setup(float x, float y, float t);
+    void update(float deltaTime, vector<Projectile>& projectiles);
     void draw();
     
     ofRectangle bounds;
     ofPoint pos;
     float w;
     float h;
-    float noiseIndex;
+    float theta;
+    bool dead = false;
+    float alpha = 255;
+    float explosion = 0;
 };
