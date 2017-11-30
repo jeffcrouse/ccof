@@ -1,11 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
-
-#define MODE_ANGLE 0
-#define MODE_RADIUS 1
-#define MODE_SIZE 2
-
+#include "ofxOrbbecAstra.h"
+#include "ofxGui.h"
+#include "ofxOpenCv.h"
 
 class ofApp : public ofBaseApp{
 
@@ -26,12 +24,14 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-        ofSerial serial;
-        stringstream ss;
     
-    ofColor color;
-        float size = 20;
-        float radius = 400;
-        float angle = 0;
-        int mode = MODE_ANGLE;
+    
+        ofParameter<float> near;
+        ofParameter<float> far;
+        ofxPanel gui;
+    
+        ofxOrbbecAstra astra;
+        ofxCvContourFinder contourFinder;
+
+        ofxCvGrayscaleImage     grayImage;
 };

@@ -2,93 +2,86 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    serial.setup(0, 9600);
+    ofSetWindowShape(1280, 800);
+    ofSetWindowTitle("encoder");
+    ofSetFrameRate(60);
+    ofBackground(0);
+    ofEnableSmoothing();
+    ofSetCircleResolution(30);
     
-    pos.x = ofGetWidth() / 2.0;
-    pos.y = ofGetHeight() - 20;
+    serial.setup(0, 9600);
 }
-
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    float now = ofGetElapsedTimef();
-    float deltaTime = ofGetLastFrameTime();
-    
-    
-    
     while(serial.available()) {
         char b = serial.readByte();
         if(b=='\n') {
             string line = ss.str();
+            //ofLogNotice() << line;
+            vector<string> words = ofSplitString(line, " ");
             
-            if(line=="Clicked") {
-                ofLogNotice() << "Clicked";
-                paused = !paused;
-            } else if(line=="DoubleClicked") {
-                ofLogNotice() << "DoubleClicked";
-            } else {
-                ofLogNotice() << "Encoder: " << line;
-                if(!paused) pos.x += ofToInt(line);
-                if(pos.x > ofGetWidth()+radius) pos.x = -radius;
-                if(pos.x < -radius) pos.x = ofGetWidth()+radius;
+            if(words[0]=="move") {
+                int amount = ofToInt(words[1]);
+                if(mode==MODE_ANGLE) {
+                    angle += amount / 20.0;
+                }
+                if(mode==MODE_RADIUS) {
+                    radius += amount / 5.0;
+                }
+                if(mode==MODE_SIZE) {
+                    size += amount / 5.0;
+                }
+            }
+            if(words[0]=="click") {
+                int num = ofToInt(words[1]);
+                if(num==1) {
+                    color.setHsb(ofRandom(255), 255, 255);
+                }
+                if(num==2) {
+                    mode = mode+1;
+                    mode %= 3;
+                }
             }
             ss.str("");
         } else {
             ss << b;
         }
     }
-    
-    if(paused) return;
-    
-    
-    if(now > nextLaser) {
-        Projectile p;
-        p.setup(pos);
-        lasers.push_back(p);
-        nextLaser = now + 0.15;
-    }
-    
-    if(now > nextEnemy) {
-        float theta =  ofRandomf() * M_TWO_PI;
-        float y = 10 + ((int)ofRandom(6) * 10);
-        Enemy e;
-        e.setup(0, 30, theta);
-        enemies.push_back( e );
-        nextEnemy = now + 2.0;
-    }
-    
-    for(auto& p: lasers) {
-        p.update(deltaTime);
-    }
-    
-    lasers.erase(remove_if(lasers.begin(), lasers.end(), [](const Projectile& p) { return p.pos.y < 0; }), lasers.end());
-    
-    for(auto& e: enemies) {
-        e.update(deltaTime, lasers);
-    }
-    
-    enemies.erase(remove_if(enemies.begin(), enemies.end(), [](const Enemy& e) { return e.alpha < 0; }), enemies.end());
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofPushMatrix();
+    ofTranslate(ofGetWidth()/2.0, ofGetHeight()/2.0);
+    
+    ofNoFill();
+    ofSetColor(color);
+    ofDrawCircle(0, 0, radius);
+    
+    float x = cos(angle) * radius;
+    float y = sin(angle) * radius;
+    ofFill();
+    ofDrawCircle(x, y, size);
+    
+    ofPopMatrix();
+    
+    
     ofSetColor(255);
-    ofDrawCircle(pos, 10);
-    for(auto& p: lasers) {
-        p.draw();
+    stringstream message;
+    if(mode==MODE_ANGLE) {
+        message << "mode: angle" << endl;
     }
-
-    for(auto& e: enemies) {
-        e.draw();
+    else if(mode==MODE_RADIUS) {
+        message << "mode: radius" << endl;
     }
-
-    if(debug) {
-        stringstream ss;
-        for(auto& p: lasers) {
-            ss << p.pos << endl;
-        }
-        ofDrawBitmapStringHighlight(ss.str(), 10, 20);
+    else if(mode==MODE_SIZE) {
+        message << "mode: size" << endl;
     }
+    message << "angle: " << ofRadToDeg( angle ) << endl;
+    message << "radius: " << radius << endl;
+    message << "size: " << size << endl;
+    ofDrawBitmapString(message.str(), 10, 20);
 }
 
 //--------------------------------------------------------------
@@ -98,9 +91,7 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-    if(key=='d') {
-        debug = !debug;
-    }
+
 }
 
 //--------------------------------------------------------------
