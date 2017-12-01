@@ -2,7 +2,13 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofSetWindowShape(1280, 800);
+    ofSetWindowTitle("ReadFromArduino");
+    ofSetFrameRate(60);
+    ofBackground(0);
     ofSetCircleResolution(40);
+    
+    
     serial.setup(0, 9600);
 }
 

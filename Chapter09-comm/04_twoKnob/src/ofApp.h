@@ -2,11 +2,6 @@
 
 #include "ofMain.h"
 
-#define MODE_ANGLE 0
-#define MODE_RADIUS 1
-#define MODE_SIZE 2
-
-
 class ofApp : public ofBaseApp{
 
 	public:
@@ -27,11 +22,8 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		
         ofSerial serial;
-        stringstream ss;
-    
-    ofColor color;
-        float size = 20;
-        float radius = 400;
-        float angle = 0;
-        int mode = MODE_ANGLE;
+        string buffer;
+        ofPoint p;
+        float radius=5;
+        vector<ofPoint> trail;
 };
