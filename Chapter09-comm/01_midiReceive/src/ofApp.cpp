@@ -5,6 +5,7 @@ void ofApp::setup(){
     ofSetWindowShape(1280, 800);
     ofSetWindowTitle("midiReceive");
     ofSetFrameRate(60);
+    ofSetDataPathRoot("../Resources/data/");
     ofBackground(0);
     ofEnableSmoothing();
 

@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetWindowShape(1280, 800);
-    ofSetWindowTitle("programmable");
+    ofSetWindowTitle("passthrough");
     ofSetFrameRate(60);
     ofBackground(100);
     ofEnableSmoothing();
